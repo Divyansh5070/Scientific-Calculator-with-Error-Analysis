@@ -113,13 +113,3 @@ NM project/
 | Typography | Google Fonts — Inter, JetBrains Mono |
 
 ---
-
-## 👥 Team
-
-| Name | Contribution |
-|---|---|
-| **Divyansh Sharma** | UI/UX, JavaScript engine, Error Analysis |
-
----
-
-*Submitted for: Numerical Methods — Application Software Project*
