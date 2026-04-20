@@ -1,6 +1,6 @@
 /**
  * Scientific Calculator with Error Analysis — Web Edition
- * Authors: Divyansh Sharma · Jiya Madan · Kabir Bajaj
+ * Author: Divyansh Sharma
  * Numerical Methods Project
  */
 
@@ -533,7 +533,7 @@ function clearReport() {
 function exportReport() {
   const lines = [
     'Scientific Calculator — Error Analysis Report',
-    'Authors: Divyansh Sharma · Jiya Madan · Kabir Bajaj',
+    'Author: Divyansh Sharma',
     `Exported: ${new Date().toLocaleString()}`,
     '',
     ...reportLines.map(l => `• ${l}`),

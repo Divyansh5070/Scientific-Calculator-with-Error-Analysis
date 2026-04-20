@@ -1,7 +1,7 @@
 # 🔬 Scientific Calculator · Error Analysis
 
 > **Numerical Methods — Application Software Project**  
-> **Team:** Divyansh Sharma · Jiya Madan · Kabir Bajaj
+> **Author:** Divyansh Sharma
 
 ---
 
@@ -119,8 +119,6 @@ NM project/
 | Name | Contribution |
 |---|---|
 | **Divyansh Sharma** | UI/UX, JavaScript engine, Error Analysis |
-| **Jiya Madan** | Error modules, Testing & Validation |
-| **Kabir Bajaj** | Report generation, Documentation |
 
 ---
 
