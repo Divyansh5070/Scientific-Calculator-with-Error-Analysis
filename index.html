@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scientific Calculator · Error Analysis | Numerical Methods</title>
+  <meta name="description" content="A premium scientific calculator with full error analysis — absolute, relative, propagation, Taylor series, significant figures, and machine epsilon tools." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════  HEADER  ═══════════════════════ -->
+<header class="app-header">
+  <div class="header-left">
+    <span class="header-icon">⚛</span>
+    <div>
+      <h1 class="header-title">Scientific Calculator <span class="accent">·</span> Error Analysis</h1>
+      <p class="header-sub">Numerical Methods Project</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="author-badge">Divyansh Sharma · Jiya Madan · Kabir Bajaj</span>
+  </div>
+</header>
+
+<!-- ═══════════════════════  MAIN LAYOUT  ═══════════════════════ -->
+<main class="app-body">
+
+  <!-- ╔══════════════════  LEFT : CALCULATOR  ══════════════════╗ -->
+  <section class="calc-panel">
+
+    <!-- Display -->
+    <div class="display-card" id="display-card">
+      <div class="display-top-row">
+        <div class="angle-group">
+          <label class="angle-btn active" id="lbl-deg"><input type="radio" name="angle" value="DEG" checked /> DEG</label>
+          <label class="angle-btn"        id="lbl-rad"><input type="radio" name="angle" value="RAD" />     RAD</label>
+          <label class="angle-btn"        id="lbl-grad"><input type="radio" name="angle" value="GRAD" />   GRAD</label>
+        </div>
+        <span class="mem-display" id="mem-display">M</span>
+      </div>
+      <div class="expr-line" id="expr-line">&nbsp;</div>
+      <div class="result-line" id="result-line">0</div>
+      <div class="display-accent"></div>
+    </div>
+
+    <!-- Button Grid -->
+    <div class="btn-grid">
+      <!-- Row 0: Memory -->
+      <button class="btn fn sm" id="btn-mc"   onclick="memClear()">MC</button>
+      <button class="btn fn sm" id="btn-mr"   onclick="memRecall()">MR</button>
+      <button class="btn fn sm" id="btn-mp"   onclick="memAdd()">M+</button>
+      <button class="btn fn sm" id="btn-mm"   onclick="memSub()">M−</button>
+      <button class="btn fn sm" id="btn-ms"   onclick="memStore()">MS</button>
+      <button class="btn clr"   id="btn-back" onclick="backspace()">⌫</button>
+
+      <!-- Row 1: Trig -->
+      <button class="btn fn" id="btn-sin"  onclick="inputFn('sin')">sin</button>
+      <button class="btn fn" id="btn-cos"  onclick="inputFn('cos')">cos</button>
+      <button class="btn fn" id="btn-tan"  onclick="inputFn('tan')">tan</button>
+      <button class="btn fn" id="btn-sqrt" onclick="inputFn('sqrt')">√x</button>
+      <button class="btn fn" id="btn-sq"   onclick="input('**2')">x²</button>
+      <button class="btn op" id="btn-pow"  onclick="input('**')">xⁿ</button>
+
+      <!-- Row 2: Inv Trig + Log -->
+      <button class="btn fn" id="btn-asin" onclick="inputFn('asin')">asin</button>
+      <button class="btn fn" id="btn-acos" onclick="inputFn('acos')">acos</button>
+      <button class="btn fn" id="btn-atan" onclick="inputFn('atan')">atan</button>
+      <button class="btn fn" id="btn-log"  onclick="inputFn('log10')">log</button>
+      <button class="btn fn" id="btn-ln"   onclick="inputFn('ln')">ln</button>
+      <button class="btn fn" id="btn-exp"  onclick="inputFn('exp')">eˣ</button>
+
+      <!-- Row 3: Constants + Brackets -->
+      <button class="btn fn" id="btn-pi"  onclick="input('3.14159265359')">π</button>
+      <button class="btn fn" id="btn-e"   onclick="input('2.71828182846')">e</button>
+      <button class="btn op" id="btn-lp"  onclick="input('(')">(</button>
+      <button class="btn op" id="btn-rp"  onclick="input(')')">)</button>
+      <button class="btn fn" id="btn-fact" onclick="inputFn('fact')">n!</button>
+      <button class="btn fn" id="btn-inv"  onclick="inputFn('inv')">1/x</button>
+
+      <!-- Row 4: 7 8 9 -->
+      <button class="btn num" id="btn-7" onclick="input('7')">7</button>
+      <button class="btn num" id="btn-8" onclick="input('8')">8</button>
+      <button class="btn num" id="btn-9" onclick="input('9')">9</button>
+      <button class="btn op"  id="btn-div" onclick="input('/')">÷</button>
+      <button class="btn fn"  id="btn-cb"  onclick="input('**3')">x³</button>
+      <button class="btn clr" id="btn-ac"  onclick="clearAll()">AC</button>
+
+      <!-- Row 5: 4 5 6 -->
+      <button class="btn num" id="btn-4"    onclick="input('4')">4</button>
+      <button class="btn num" id="btn-5"    onclick="input('5')">5</button>
+      <button class="btn num" id="btn-6"    onclick="input('6')">6</button>
+      <button class="btn op"  id="btn-mul"  onclick="input('*')">×</button>
+      <button class="btn fn"  id="btn-log2" onclick="inputFn('log2')">log₂</button>
+      <button class="btn fn"  id="btn-cbrt" onclick="inputFn('cbrt')">∛</button>
+
+      <!-- Row 6: 1 2 3 -->
+      <button class="btn num" id="btn-1"   onclick="input('1')">1</button>
+      <button class="btn num" id="btn-2"   onclick="input('2')">2</button>
+      <button class="btn num" id="btn-3"   onclick="input('3')">3</button>
+      <button class="btn op"  id="btn-sub" onclick="input('-')">−</button>
+      <button class="btn op"  id="btn-neg" onclick="negate()">±</button>
+      <button class="btn op"  id="btn-pct" onclick="input('%')">%</button>
+
+      <!-- Row 7: 0 . + = -->
+      <button class="btn num wide2" id="btn-0"   onclick="input('0')">0</button>
+      <button class="btn num"       id="btn-dot"  onclick="input('.')">.</button>
+      <button class="btn op"        id="btn-add"  onclick="input('+')">+</button>
+      <button class="btn eq wide2"  id="btn-eq"   onclick="calculate()">=</button>
+    </div>
+
+    <!-- History -->
+    <div class="history-pane">
+      <div class="history-header">
+        <span>History</span>
+        <button class="ghost-btn" id="btn-hist-clear" onclick="clearHistory()">Clear</button>
+      </div>
+      <ul class="history-list" id="history-list"></ul>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="panel-divider"></div>
+
+  <!-- ╔══════════════════  RIGHT : ERROR ANALYSIS  ══════════════════╗ -->
+  <section class="error-panel">
+    <div class="tabs-bar">
+      <button class="tab-btn active" id="tab-basic"   onclick="switchTab('basic')">📐 Basic</button>
+      <button class="tab-btn"        id="tab-prop"    onclick="switchTab('prop')">📈 Propagation</button>
+      <button class="tab-btn"        id="tab-taylor"  onclick="switchTab('taylor')">🔢 Taylor</button>
+      <button class="tab-btn"        id="tab-sigfig"  onclick="switchTab('sigfig')">📊 Sig Figs</button>
+      <button class="tab-btn"        id="tab-machine" onclick="switchTab('machine')">🔬 Machine ε</button>
+      <button class="tab-btn"        id="tab-report"  onclick="switchTab('report')">📋 Report</button>
+    </div>
+
+    <!-- ── Tab: Basic ── -->
+    <div class="tab-content active" id="tab-content-basic">
+      <h2 class="tab-title">Basic Error Calculations</h2>
+      <div class="fields-grid">
+        <div class="field-row">
+          <label class="field-label" for="basic-tv">True Value</label>
+          <input class="field-input" id="basic-tv" type="number" placeholder="e.g. 3.14159" />
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="basic-av">Approx Value</label>
+          <input class="field-input" id="basic-av" type="number" placeholder="e.g. 3.14" />
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="basic-dp">Decimal Places</label>
+          <input class="field-input" id="basic-dp" type="number" value="5" min="0" max="15" />
+        </div>
+      </div>
+      <button class="action-btn" id="btn-calc-basic" onclick="runBasic()">Calculate Errors</button>
+      <div class="output-box" id="out-basic"></div>
+    </div>
+
+    <!-- ── Tab: Propagation ── -->
+    <div class="tab-content" id="tab-content-prop">
+      <h2 class="tab-title">Error Propagation</h2>
+      <div class="radio-row">
+        <label class="radio-chip"><input type="radio" name="prop-op" value="add" checked /> Addition</label>
+        <label class="radio-chip"><input type="radio" name="prop-op" value="sub" /> Subtraction</label>
+        <label class="radio-chip"><input type="radio" name="prop-op" value="mul" /> Multiply</label>
+        <label class="radio-chip"><input type="radio" name="prop-op" value="div" /> Divide</label>
+      </div>
+      <div class="fields-grid">
+        <div class="field-row">
+          <label class="field-label" for="prop-a">Value a</label>
+          <input class="field-input" id="prop-a" type="number" placeholder="e.g. 5.0" />
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="prop-da">Absolute Error Δa</label>
+          <input class="field-input" id="prop-da" type="number" placeholder="e.g. 0.1" />
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="prop-b">Value b</label>
+          <input class="field-input" id="prop-b" type="number" placeholder="e.g. 3.0" />
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="prop-db">Absolute Error Δb</label>
+          <input class="field-input" id="prop-db" type="number" placeholder="e.g. 0.05" />
+        </div>
+      </div>
+      <button class="action-btn" id="btn-calc-prop" onclick="runProp()">Propagate Error</button>
+      <div class="output-box" id="out-prop"></div>
+    </div>
+
+    <!-- ── Tab: Taylor ── -->
+    <div class="tab-content" id="tab-content-taylor">
+      <h2 class="tab-title">Taylor Series Truncation Error</h2>
+      <div class="radio-row">
+        <label class="radio-chip"><input type="radio" name="taylor-fn" value="sin" checked /> sin(x)</label>
+        <label class="radio-chip"><input type="radio" name="taylor-fn" value="cos" /> cos(x)</label>
+        <label class="radio-chip"><input type="radio" name="taylor-fn" value="exp" /> exp(x)</label>
+      </div>
+      <div class="fields-grid">
+        <div class="field-row">
+          <label class="field-label" for="taylor-x">x (radians)</label>
+          <input class="field-input" id="taylor-x" type="number" placeholder="e.g. 1.0" />
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="taylor-n">Max Terms (1–20)</label>
+          <input class="field-input" id="taylor-n" type="number" value="8" min="1" max="20" />
+        </div>
+      </div>
+      <button class="action-btn" id="btn-calc-taylor" onclick="runTaylor()">Compute Error</button>
+      <div class="output-box mono-table" id="out-taylor"></div>
+    </div>
+
+    <!-- ── Tab: Sig Figs ── -->
+    <div class="tab-content" id="tab-content-sigfig">
+      <h2 class="tab-title">Significant Figures &amp; Rounding</h2>
+      <div class="fields-grid">
+        <div class="field-row">
+          <label class="field-label" for="sf-v">Value</label>
+          <input class="field-input" id="sf-v" type="number" placeholder="e.g. 3.14159265" />
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="sf-n">Significant Figures</label>
+          <input class="field-input" id="sf-n" type="number" value="4" min="1" max="15" />
+        </div>
+      </div>
+      <button class="action-btn" id="btn-calc-sf" onclick="runSigfig()">Analyse</button>
+      <div class="output-box" id="out-sigfig"></div>
+    </div>
+
+    <!-- ── Tab: Machine ε ── -->
+    <div class="tab-content" id="tab-content-machine">
+      <h2 class="tab-title">Machine Epsilon &amp; Floating Point</h2>
+      <div class="info-tiles" id="machine-tiles"></div>
+      <h3 class="sub-heading">Catastrophic Cancellation Demo</h3>
+      <div class="fields-grid">
+        <div class="field-row">
+          <label class="field-label" for="mach-a">a</label>
+          <input class="field-input" id="mach-a" type="number" value="1.0" />
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="mach-b">b (tiny)</label>
+          <input class="field-input" id="mach-b" type="number" value="1e-16" />
+        </div>
+      </div>
+      <button class="action-btn" id="btn-calc-mach" onclick="runMachine()">Analyse Cancellation</button>
+      <div class="output-box" id="out-machine"></div>
+    </div>
+
+    <!-- ── Tab: Report ── -->
+    <div class="tab-content" id="tab-content-report">
+      <h2 class="tab-title">Session Report</h2>
+      <p class="hint-text">All computations are auto-logged here.</p>
+      <div class="report-actions">
+        <button class="ghost-btn danger" id="btn-clear-rep" onclick="clearReport()">Clear</button>
+        <button class="ghost-btn" id="btn-export" onclick="exportReport()">Export .txt</button>
+      </div>
+      <div class="output-box report-box" id="out-report"></div>
+    </div>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
